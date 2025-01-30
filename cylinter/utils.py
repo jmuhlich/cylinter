@@ -139,19 +139,19 @@ def input_check(self):
         else:
             # test for WSI data
 
-            try:
-                markers = pd.read_csv(os.path.join(self.inDir, 'markers.csv'))
-            except FileNotFoundError:
-                logger.info(
-                    'Aborting; markers.csv file not found. Include markers.csv '
-                    'or ensure input file path ("inDir") is correct in cylinter_config.yml')
-                sys.exit()
+            # try:
+            #     markers = pd.read_csv(os.path.join(self.inDir, 'markers.csv'))
+            # except FileNotFoundError:
+            #     logger.info(
+            #         'Aborting; markers.csv file not found. Include markers.csv '
+            #         'or ensure input file path ("inDir") is correct in cylinter_config.yml')
+            #     sys.exit()
             
             # check that samples specified in cylinter_config.yml each have
             # a csv, tif, seg, and mask file
             markers_list = []
             for key in self.sampleNames.keys():
-                
+
                 sample_name = key.split('--')[0]
                 segmentation_method = key.split('--')[1].split('_')[0]
                 segmentation_object = key.split('--')[1].split('_')[1]
@@ -376,7 +376,7 @@ def napari_notification(msg):
 
 def read_markers(markers_filepath, counterstain_channel, markers_to_exclude, data):
 
-    markers = pd.read_csv(markers_filepath, dtype={0: 'int16', 1: 'int16', 2: 'str'}, comment='#')
+    markers = pd.read_csv(markers_filepath)
 
     if data is None:
         markers_to_include = [i for i in markers['marker_name'] if i not in markers_to_exclude]
